@@ -2,9 +2,10 @@ import pygame
 import time
 import random
 import math
-from state import State
+from util import State, Feature
 
 CONTROLS = False
+
 
 class Snake:
     def __init__(self, dis, height, width) -> None:
@@ -42,7 +43,7 @@ class Snake:
         if head in self.snake_list[:-1]:
             return True
 
-        if self.x < 0 or self.x > self.width or self.y<0 or self.y > self.height:
+        if self.x < 0 or self.x > self.width-self.size or self.y<0 or self.y > self.height-self.size:
             # print("crashing")
             return True 
         
@@ -133,6 +134,31 @@ class Snake:
 
 
         return self.snake_length - 1
+
+
+def featureExtractor(self, state: State, action):
+    features = []
+    temp_x = self.x + state.delta_x
+    temp_y = self.y + state.delta_y
+
+    #distance to left wall, how big the tail is, action maybe you need location?
+    features.append(Feature(featureKey=('leftWall', temp_x, action), featureValue=1))
+
+    #distance to right wall, how big the tail is, action
+    features.append(Feature(featureKey=('rightWall', self.width-self.size-temp_x, action), featureValue=1))
+
+    #distance to top wall, how big the tail is, action
+    features.append(Feature(featureKey=('topWall', temp_y, action), featureValue=1))
+
+    #distance to bottom wall, how big the tail is, action
+    features.append(Feature(featureKey=('bottomWall', self.height-self.size-temp_y, action), featureValue=1))
+
+    #maybe how close the head is to the body?
+
+    #distance to fruit, action
+    features.append(Feature(featureKey=('bottomWall', abs(temp_y-self.foody) + abs(temp_x-self.foodx), action), featureValue=1))
+
+    return features
 
 
 
