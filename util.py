@@ -8,10 +8,13 @@ import math
 Feature = NamedTuple('Feature', [('featureKey', Tuple), ('featureValue', int)])
 
 class State:
-    def __init__(self, delta_x, delta_y, reward) -> None:
-        self.delta_x = delta_x
-        self.delta_y = delta_y
-        self.reward = reward
+    def __init__(self, x, y, length, foodx, foody, snake_list) -> None:
+        self.x = x
+        self.y = y
+        self.length = length
+        self.foodx = foodx
+        self.foody = foody
+        self.snake_list = snake_list
 
 
 ############################################################
@@ -22,18 +25,21 @@ class State:
 # explorationProb: the epsilon value indicating how frequently the policy
 # returns a random action
 class QLearningAlgorithm():
-    def __init__(self, actions: Callable, discount: float, featureExtractor: Callable, explorationProb=0.2):
+    def __init__(self, actions: List, discount: float, featureExtractor: Callable,  height, width, size, explorationProb=0.2):
         self.actions = actions
         self.discount = discount
         self.featureExtractor = featureExtractor
         self.explorationProb = explorationProb
         self.weights = defaultdict(float)
         self.numIters = 0
+        self.height = height
+        self.width = width
+        self.size = size
 
     # Return the Q function associated with the weights and features
     def getQ(self, state: Tuple, action: Any) -> float:
         score = 0
-        for f, v in self.featureExtractor(state, action):
+        for f, v in self.featureExtractor(state, action, self.height, self.width, self.size):
             score += self.weights[f] * v
         return score
 
@@ -43,9 +49,10 @@ class QLearningAlgorithm():
     def getAction(self, state: Tuple) -> Any:
         self.numIters += 1
         if random.random() < self.explorationProb:
-            return random.choice(self.actions(state))
+            return random.choice(self.actions)
         else:
-            return max((self.getQ(state, action), action) for action in self.actions(state))[1]
+            random.shuffle(self.actions)
+            return max((self.getQ(state, action), action) for action in self.actions)[1]
 
     # Call this function to get the step size to update the weights.
     def getStepSize(self) -> float:
@@ -61,9 +68,9 @@ class QLearningAlgorithm():
             # s is terminal
             return
 
-        featureValues = self.featureExtractor(state, action)
+        featureValues = self.featureExtractor(state, action, self.height, self.width, self.size)
         max_action_value = float('-inf')
-        for new_action in self.actions(newState):
+        for new_action in self.actions:
             temp_value = self.getQ(newState, new_action)
             if temp_value > max_action_value:
                 max_action_value = temp_value
@@ -73,3 +80,38 @@ class QLearningAlgorithm():
         alpha = self.getStepSize()
         for f, v in featureValues:
             self.weights[f] += alpha*difference*v
+
+
+def featureExtractor(state: State, action, height, width, size):
+    features = []
+    temp_x = state.x
+    temp_y = state.y
+
+
+    # #distance to left wall, how big the tail is, action maybe you need location?
+    # features.append(Feature(featureKey=('leftWall', temp_x, action), featureValue=1))
+
+    # #distance to right wall, how big the tail is, action
+    # features.append(Feature(featureKey=('rightWall', width-size-temp_x, action), featureValue=1))
+
+    # #distance to top wall, how big the tail is, action
+    # features.append(Feature(featureKey=('topWall', temp_y, action), featureValue=1))
+
+    # #distance to bottom wall, how big the tail is, action
+    # features.append(Feature(featureKey=('bottomWall', height-size-temp_y, action), featureValue=1))
+
+    #maybe how close the head is to the body?
+
+    distance_to_wall = min(temp_x, width-size-temp_x, temp_y, height-size-temp_y)
+    features.append(Feature(featureKey=('distance_to_wall', distance_to_wall, action), featureValue=1))
+
+    #distance to fruit, action
+    food_distance = 1
+    if abs(temp_y-state.foody) + abs(temp_x-state.foodx) != 0:
+        food_distance = 1/(abs(temp_y-state.foody) + abs(temp_x-state.foodx))
+    # food_distance = 1/(abs(temp_y-state.foody) + abs(temp_x-state.foodx))
+
+    features.append(Feature(featureKey=('bottomWall', food_distance, action), featureValue=5))
+
+    features.append(Feature(featureKey=('current_score', state.length, action), featureValue=5))
+    return features
