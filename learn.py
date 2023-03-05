@@ -23,6 +23,8 @@ def simulate(display, height, width, debug_mode, numTrials=300, maxIterations=10
         skip = False
         for _ in range(maxIterations):
             action, debug_list, debug_bits = qlearn.getAction(state, debug_mode, trial+1)
+
+
             if debug_mode and debug_bits:
                 debug_bit_list = ['foodLeft','foodRight','foodDown','foodUp','dangerUp','dangerDown','dangerLeft','dangerRight']
                 for i in range(len(debug_bits)):
@@ -43,7 +45,6 @@ def simulate(display, height, width, debug_mode, numTrials=300, maxIterations=10
                         text = font.render(str(round(v, 2)), True, (255, 0, 0))
                     display.blit(text, [x+chosen_action[0]+size/2, y+chosen_action[1]+size/2])
                 pygame.display.update()
-
                 out = False
                 while not out:
                     for event in pygame.event.get():
@@ -61,7 +62,7 @@ def simulate(display, height, width, debug_mode, numTrials=300, maxIterations=10
 
             new_state, reward = snake.choices(state, action)
             if new_state == None:
-                qlearn.incorporateFeedback(state, action, -1000, None)
+                qlearn.incorporateFeedback(state, action, -10000, None)
                 # print("crashed")
                 break
             
