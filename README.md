@@ -78,7 +78,7 @@ The idea was to try to get the snake to prioritize staying alive, giving it no n
 ### The algorithm:
 With a probability of $\epsilon$(default 0.2), the snake will take a random legal action. This value will decrease as the number of trials increase.
 
-With a probability of $\epsilon$, the snake will choose its next move with the highest reward. This is given from the function getQ(s, a), where s is the current state and $f$ is the feature values.
+With a probability of $1-\epsilon$, the snake will choose its next move with the highest reward. This is given from the function getQ(s, a), where s is the current state and $f$ is the feature values.
 
 Next Action = max(getQ(s,a)= w_1 * f_1 (s,a)+w_2 * f_2 (s,a)+  ... $+ w_n*f_n(s,a) $) for a in legal actions
 
