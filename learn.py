@@ -18,7 +18,7 @@ def simulate(display, height, width, debug_mode, numTrials=300, maxIterations=10
 
     for trial in range(numTrials):
         state = snake.reset()
-        totalDiscount = 0.8 #future
+        totalDiscount = 1 #future
         trial_reward = 0
         skip = False
         for _ in range(maxIterations):
@@ -28,7 +28,7 @@ def simulate(display, height, width, debug_mode, numTrials=300, maxIterations=10
             if debug_mode and debug_bits:
                 debug_bit_list = ['foodLeft','foodRight','foodDown','foodUp','dangerUp','dangerDown','dangerLeft','dangerRight']
                 for i in range(len(debug_bits)):
-                    if debug_bits[i] == 1:
+                    if debug_bits[i] != 0:
                         print(debug_bit_list[i])
                 print("="*20)
             #For debugging purposes

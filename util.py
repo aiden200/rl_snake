@@ -105,83 +105,8 @@ class QLearningAlgorithm():
 
 def featureExtractor(state: State, action, height, width, size):
     features = []
-    temp_x = state.x
-    temp_y = state.y
-    wall_feature = False
-    abs_distance_to_fruit = False
-    direction_to_fruit = False
     state_features = True
-
-    if wall_feature:
-        # distance to left wall, how big the tail is, action maybe you need location?
-        features.append(Feature(featureKey=('leftWall', temp_x, action), featureValue=1))
-        # distance to right wall, how big the tail is, action
-        features.append(Feature(featureKey=('rightWall', width-size-temp_x, action), featureValue=1))
-        # distance to top wall, how big the tail is, action
-        features.append(Feature(featureKey=('topWall', temp_y, action), featureValue=1))
-        # distance to bottom wall, how big the tail is, action
-        features.append(Feature(featureKey=('bottomWall', height-size-temp_y, action), featureValue=1))
-
-    if abs_distance_to_fruit:
-        #distance to fruit, action
-        food_distance = 1
-        if abs(temp_y-state.foody) + abs(temp_x-state.foodx) != 0:
-            food_distance = 1/(abs(temp_y-state.foody) + abs(temp_x-state.foodx))
-        # food_distance = 1/(abs(temp_y-state.foody) + abs(temp_x-state.foodx))
-        features.append(Feature(featureKey=('distance_to_food', food_distance, action), featureValue=3))
-
-    if direction_to_fruit:
-        #distance to left food
-        features.append(Feature(featureKey=('leftFood', temp_x-state.foodx, action), featureValue=1))
-        #distance to right food
-        features.append(Feature(featureKey=('rightFood', state.foodx-temp_x, action), featureValue=1))
-        #distance to top food
-        features.append(Feature(featureKey=('topFood', state.foody-temp_y, action), featureValue=1))
-        #distance to bottom food
-        features.append(Feature(featureKey=('bottomFood', temp_y-state.foody, action), featureValue=1))
-
-
-    #maybe how close the head is to the body?
-
-    # distance_to_wall = min(temp_x, width-size-temp_x, temp_y, height-size-temp_y)
-    # features.append(Feature(featureKey=('distance_to_wall', distance_to_wall, action), featureValue=1))
-
-
-
-    # #abs horizontal distance to food, action maybe you need location?
-    # features.append(Feature(featureKey=('horiDirectionFood', state.foodx - temp_x, action), featureValue=1))
-
-    # #abs vertical distance to food, action
-    # features.append(Feature(featureKey=('vertDirectionFood', state.foody-temp_y, action), featureValue=1))
-
-
-
-
-
-    #where head is compared to the rest of snake tail
-    # if state.snake_list:
-    #     features.append(Feature(featureKey=('headPosition', (temp_x,temp_y), tuple(state.snake_list[-1]),action), featureValue=-1))
-
-    #score
-    # features.append(Feature(featureKey=('current_score', state.length, action), featureValue=1))
-
-    #I think this will decide best option reletive to wall
-    # features.append(Feature(featureKey=('in_wall', (temp_x, temp_y), action), featureValue=1))
-
-
-
-    # food_distance = 1
-    # if abs(temp_y-state.foody) != 0:
-    #     food_distance = 1/(abs(temp_y-state.foody))
-    # features.append(Feature(featureKey=('distance_to_foody', food_distance, action), featureValue=3))
-    # food_distance = 1
-    # if abs(temp_x-state.foodx) != 0:
-    #     food_distance = 1/(abs(temp_x-state.foodx))
-    # features.append(Feature(featureKey=('distance_to_foodx', food_distance, action), featureValue=3))
-
-
-
-
+    direction_and_danger = False
     '''
     Some ideas
     if the snake is in the wall, put it at 0? Since it doesnt want to crash
@@ -222,28 +147,89 @@ def featureExtractor(state: State, action, height, width, size):
 
         #danger up
         if state.y == 0 or [state.x, state.y - size] in state.snake_list[:-1]:
-            bit = 1
+            bit = -1
         else:
             bit = 0
         features.append(Feature(featureKey=('dangerUp', action), featureValue=bit))
         debug_bit.append(bit)
         #danger down
         if state.y == height-size or [state.x, state.y + size] in state.snake_list[:-1]:
-            bit = 1
+            bit = -1
         else:
             bit = 0
         features.append(Feature(featureKey=('dangerDown', action), featureValue=bit))
         debug_bit.append(bit)
         #danger left
         if state.x == 0 or [state.x - size, state.y] in state.snake_list[:-1]:
-            bit = 1
+            bit = -1
         else:
             bit = 0
         features.append(Feature(featureKey=('dangerLeft', action), featureValue=bit))
         debug_bit.append(bit)
         #danger right
         if state.x == width-size or [state.x + size, state.y] in state.snake_list[:-1]:
+            bit = -1
+        else:
+            bit = 0
+        features.append(Feature(featureKey=('dangerRight', action), featureValue=bit))
+        debug_bit.append(bit)
+    
+
+    if direction_and_danger:
+        #if snake is right of food
+        if state.x > state.foodx:
             bit = 1
+        else:
+            bit = 0
+        features.append(Feature(featureKey=('foodRight', action), featureValue=bit))
+        debug_bit.append(bit)
+        #if snake is left of food
+        if state.x < state.foodx:
+            bit = 1
+        else:
+            bit = 0
+        features.append(Feature(featureKey=('foodLeft', action), featureValue=bit))
+        debug_bit.append(bit)
+        #if snake is up of food
+        if state.y < state.foody:
+            bit = 1
+        else:
+            bit = 0
+        features.append(Feature(featureKey=('foodUp', action), featureValue=bit))
+        debug_bit.append(bit)
+        #if snake is down of food
+        if state.y > state.foody:
+            bit = 1
+        else:
+            bit = 0
+        features.append(Feature(featureKey=('foodDown', action), featureValue=bit))
+        debug_bit.append(bit)
+        
+
+        #danger up
+        if (state.y == 0 or [state.x, state.y - size] in state.snake_list[:-1]) and action == "up":
+            bit = -1
+        else:
+            bit = 0
+        features.append(Feature(featureKey=('dangerUp', action), featureValue=bit))
+        debug_bit.append(bit)
+        #danger down
+        if (state.y == height-size or [state.x, state.y + size] in state.snake_list[:-1]) and action == "down":
+            bit = -1
+        else:
+            bit = 0
+        features.append(Feature(featureKey=('dangerDown', action), featureValue=bit))
+        debug_bit.append(bit)
+        #danger left
+        if (state.x == 0 or [state.x - size, state.y] in state.snake_list[:-1]) and action == "left":
+            bit = -1
+        else:
+            bit = 0
+        features.append(Feature(featureKey=('dangerLeft', action), featureValue=bit))
+        debug_bit.append(bit)
+        #danger right
+        if (state.x == width-size or [state.x + size, state.y] in state.snake_list[:-1]) and action == "right":
+            bit = -1
         else:
             bit = 0
         features.append(Feature(featureKey=('dangerRight', action), featureValue=bit))

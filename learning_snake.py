@@ -41,6 +41,7 @@ class Snake:
         return False
     
     def reward_distance_to_fruit(self, state, new_state):
+        # return 0
         new_distance = abs(new_state.x - new_state.foodx) + abs(new_state.y - new_state.foody)
         old_distance = abs(state.x - state.foodx) + abs(state.y - state.foody)
         if new_distance - old_distance < 0:
@@ -48,6 +49,7 @@ class Snake:
         
         
         return -1
+
     
     def choices(self, state, action):
         moves = {"up":[0,-self.size], "down":[0,self.size], "left":[-self.size,0], "right":[self.size,0]} #up, down left, right
