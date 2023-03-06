@@ -69,12 +69,12 @@ The AI uses Q algorithm to solve the problem.
 There are 4 actions that the AI can take. "up", "down", "left", or "right". Depending on if the body size > 1, this could be limited to 3 actions.
 
 A "state" in this problem is defined to be: 
-- x,y coordinates of the head
+- x,y coordinates of the head of the snake
 - Length of the snake
 - x,y coordinates of the food
 - The current snake body
 
-Given that the food is randomly generated across the screen(besides the first iteration so the snake can learn quickly that eating the food gives a good reward). There are too many possible states to visit. Therefore instead of saving and trying to visit all possible states, approximate Q learning will be used. 
+Given that the food is randomly generated across the screen (besides the first iteration so the snake can learn quickly that eating the food gives a good reward). There are too many possible states to visit. Therefore instead of saving and trying to visit all possible states, approximate Q learning will be used. 
 
 For actual rewards, two methodes were tested. 
 
@@ -110,7 +110,7 @@ For Example, if the snake was in the top left corner without a tail and the food
 - (0, 1, 1, 0, 0, 1, 1, 0)
 
 ### The algorithm:
-With a probability of $\epsilon$(default 0.2), the snake will take a random legal action. This value will decrease as the number of trials increase.
+With a probability of $\epsilon$ (default 0.2), the snake will take a random legal action. This value will decrease as the number of trials increase.
 
 With a probability of $1-\epsilon$, the snake will choose its next move with the highest reward. This is given from the function getQ(s, a), where s is the current state and $f$ is the feature values.
 
@@ -124,7 +124,7 @@ Where $\alpha$ is the step size, or learning rate. Our $\alpha$ is currently fix
 
 When we take this action a in state s we land in state s'. The difference variable mentioned when calculating $w_i$ is calculated by subtracting the total reward for being in state s' - what we predicted it would be. This can also be written as:
 - [reward observed in s'+ discount value*max(future predicted rewards)] - predicted reward
-- Mathematically this can be writting as difference = $[r(s') + \gamma * max_{a'}Q(s',a')] - Q(s,a)$
+- Mathematically this can be written as $difference$ = $[r(s') + \gamma * max_{a'}Q(s',a')] - Q(s,a)$
     - $\gamma$ = discount value
 
 
