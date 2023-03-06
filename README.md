@@ -1,9 +1,10 @@
+## Debug Mode Keys
 ---
-title: "Reinforcement Learning of Snake"
+D: "Reinforcement Learning of Snake"
 output: github_document
 ---
 
-## Check my Website
+## Check out my Website
 https://www.aidenwchang.com/
 
 
