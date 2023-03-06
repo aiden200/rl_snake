@@ -50,7 +50,11 @@ The AI uses Q algorithm to solve the problem.
 
 There are 4 actions that the AI can take. "up", "down", "left", or "right". Depending on if the body size > 1, this could be limited to 3 actions.
 
-A "state" in this problem is defined to be the x,y coordinates of the head, length of the snake, x,y coordinates of the food, and the snake body.
+A "state" in this problem is defined to be: 
+- x,y coordinates of the head
+- Length of the snake
+- x,y coordinates of the food
+- The current snake body
 
 Given that the food is randomly generated across the screen(besides the first iteration so the snake can learn quickly that eating the food gives a good reward). There are too many possible states to visit. Therefore instead of saving and trying to visit all possible states, approximate Q learning will be used. 
 
