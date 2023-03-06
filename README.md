@@ -12,12 +12,30 @@ https://www.aidenwchang.com/
 
 ## How to run the code
 
-Clone the github repository, install and activate python venv.
+Clone the github repository, install and activate python venv. 
+
+Install a python virtual environment (Optional):
+```
+python3 -m venv [path to virtual environment]
+```
+
+To start virtual environment and install required packages:
+```
+cd [path to virtual environment]
+source bin/activate
+pip install -r requirements.txt
+```
+
 
 Run the code typing in:
 ```
 python3 learn.py
 ```
+or
+```
+python3 learn.py -d 
+```
+to start the code in debug mode.
 
 Once the snake program is launched, you can adjust the frame rate of the snake with the up and down arrow keys.
 
