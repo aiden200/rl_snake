@@ -76,7 +76,7 @@ With a probability of $\epsilon$(default 0.2), the snake will take a random lega
 
 With a probability of $\epsilon$, the snake will choose its next move with the highest reward. This is given from the function getQ(s, a), where s is the current state and $f$ is the feature values.
 
-Next Action = max(getQ(s,a) $=w_1f_1(s,a) + w_2f_2(s,a) + ... + w_nf_n(s,a)$) for a in legal actions
+Next Action = max(getQ(s,a) $=w_1*f_1(s,a) + w_2*f_2(s,a) +$ ... $+ w_n*f_n(s,a) $) for a in legal actions
 
 Now the actual learning part. To update the respective weights for these specific feature values, for a given weight $w_i$ which weights the importance of its respective feature $f_i$, we update $w_i$ to be:
 
@@ -85,7 +85,7 @@ Where $\alpha$ is the step size, or learning rate. Our alpha is currently fixed 
 
 When we take this action a in state s we land in state s'. The difference variable mentioned when calculating $w_i$ is calculated by subtracting the total reward for being in state s' - what we predicted it would be. This can also be written as:
 - [reward observed in s'+ discount value*max(future predicted rewards)] - predicted reward
-- Mathematically this can be writting as difference = $[r(s') + \gamma * max_a']$
+- Mathematically this can be writting as difference = $[r(s') + \gamma * max_[a']]$
 
 
 Issues resolved:
