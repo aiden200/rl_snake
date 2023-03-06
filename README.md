@@ -74,13 +74,16 @@ The idea was to try to get the snake to prioritize staying alive, giving it no n
 ### The algorithm:
 With a probability of $\epsilon$(default 0.2), the snake will take a random legal action. This value will decrease as the number of trials increase.
 
-With a probability of $\epsilon$, the snake will choose its next move from the following algorithm.
+With a probability of $\epsilon$, the snake will choose its next move with the highest reward. This is given from the function getQ(s, a), where s is the current state. For every legal action a the snake can take:
+
+
+getQ(s,a) $=w_1f_1(s,a) + w_2f_2(s,a) + ... + w_nf_n(s,a)$
 $\sqrt{3x-1}+(1+x)^2$
 
 With the 
 
 Issues resolved:
-    - The code has an epsilon value that acts as a probability of the snake to make a random move with the purpose of exploring new states. This causes an issue in later stages, so an epsilon value of each trial is determined to be epsilon = max_epsilon/trial. This decreases randomness as our trials increase
+    - The code has an $\epsilon$ value that acts as a probability of the snake to make a random move with the purpose of exploring new states. This causes an issue in later stages, so an $\epsilon$ value of each trial is determined to be $\epsilon$ = (max $\epsilon$)/trial. This decreases randomness as our trials increase
     - The fruit spawned in the snake body causing the snake to crash into itself
 
 
