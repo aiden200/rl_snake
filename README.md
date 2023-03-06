@@ -105,6 +105,9 @@ For each given state and action, the featureExtractor will generate a bitlist. T
 | 6 | (Bit is 1 if the snake will die if it travels one block to the left, action) |
 | 7 | (Bit is 1 if the snake will die if it travels one block to the rightm, action) |
 
+For Example, if the snake was in the top left corner without a tail and the food is in the middle of the screen, the result bitlist will be this:
+- (0, 1, 1, 0, 0, 1, 1, 0)
+
 Issues resolved:
 - The code has an $\epsilon$ value that acts as a probability of the snake to make a random move with the purpose of exploring new states. This causes an issue in later stages, so an $\epsilon$ value of each trial is determined to be $\epsilon$ = (max $\epsilon$)/trial. This decreases randomness as our trials increase
 - The fruit spawned in the snake body causing the snake to crash into itself
