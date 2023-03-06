@@ -82,11 +82,11 @@ Now the actual learning part. To update the respective weights for these specifi
 
 $w_i = w_i + \alpha * difference * f_i(s,a)$
 Where $\alpha$ is the step size, or learning rate. Our alpha is currently fixed to an integer < 1.
-When we take this action a in state s we land in state s'. The difference variable mentioned when calculating $w_i$ is calculated by subtracting the total reward for being in state s' - what we predicted it would be. This can also be written as:
-    - [reward observed in s'+ discount value*max(future predicted rewards)] - predicted reward
-    - Mathematically this can be writting as difference = $[r(s') + \gamma * max_(a')]$
 
-With the 
+When we take this action a in state s we land in state s'. The difference variable mentioned when calculating $w_i$ is calculated by subtracting the total reward for being in state s' - what we predicted it would be. This can also be written as:
+- [reward observed in s'+ discount value*max(future predicted rewards)] - predicted reward
+- Mathematically this can be writting as difference = $[r(s') + \gamma * max_(a')]$
+
 
 Issues resolved:
     - The code has an $\epsilon$ value that acts as a probability of the snake to make a random move with the purpose of exploring new states. This causes an issue in later stages, so an $\epsilon$ value of each trial is determined to be $\epsilon$ = (max $\epsilon$)/trial. This decreases randomness as our trials increase
