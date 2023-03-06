@@ -1,6 +1,6 @@
 ---
-'D' key: Enter/Exit Debug Mode
-'S' key: Skip Trial
+D key: Enter/Exit Debug Mode
+S key: Skip Trial
 Space key: Next Frame
 Up Arrow Key: Speed up frame by 100
 Down Arrow Key: Slow down frame by 100
