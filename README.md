@@ -88,11 +88,23 @@ When we take this action a in state s we land in state s'. The difference variab
 - Mathematically this can be writting as difference = $[r(s') + \gamma * max_{a'}Q(s',a')] - Q(s,a)$
     - $\gamma$ = discount value
 
+### Features
+For each given state and action, the featureExtractor will generate a bitlist. There are 8 Features with the following 
+| index | Description |
+| --- | --- |
+| 0 | (Bit is 1 if food is on the left side, 0 otherwise. , action)|
+| 1 | (Bit is 1 if food is on the right side, 0 otherwise. , action)|
+| 2 | (Bit is 1 if food is on the bottom side, 0 otherwise. , action)|
+| 3 | (Bit is 1 if food is on the top side, 0 otherwise. , action)|
+| 4 | (Bit is 1 if the snake will die if it travels one block below, action) |
+| 5 | (Bit is 1 if the snake will die if it travels one block above, action) |
+| 6 | (Bit is 1 if the snake will die if it travels one block to the left, action) |
+| 7 | (Bit is 1 if the snake will die if it travels one block to the rightm, action) |
 
 Issues resolved:
-    - The code has an $\epsilon$ value that acts as a probability of the snake to make a random move with the purpose of exploring new states. This causes an issue in later stages, so an $\epsilon$ value of each trial is determined to be $\epsilon$ = (max $\epsilon$)/trial. This decreases randomness as our trials increase
-    - The fruit spawned in the snake body causing the snake to crash into itself
+- The code has an $\epsilon$ value that acts as a probability of the snake to make a random move with the purpose of exploring new states. This causes an issue in later stages, so an $\epsilon$ value of each trial is determined to be $\epsilon$ = (max $\epsilon$)/trial. This decreases randomness as our trials increase
+- The fruit spawned in the snake body causing the snake to crash into itself
 
 Future Implementations:
-    - Adjust alpha on the fly.
+- Adjust alpha on the fly.
 
