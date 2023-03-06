@@ -84,7 +84,7 @@ Next Action = $max_a$($getQ(s,a)= w_1 * f_1 (s,a)+w_2 * f_2 (s,a)$+  ... $+ w_n*
 
 Now the actual learning part. To update the respective weights for these specific feature values, for a given weight $w_i$ which weights the importance of its respective feature $f_i$, we update $w_i$ to be:
 
-$w_i = w_i + \alpha * difference * f_i(s,a)$
+$w_i = w_i + \alpha * difference * f_i(s,a)$ $\n$
 Where $\alpha$ is the step size, or learning rate. Our $\alpha$ is currently fixed to an integer < 1.
 
 When we take this action a in state s we land in state s'. The difference variable mentioned when calculating $w_i$ is calculated by subtracting the total reward for being in state s' - what we predicted it would be. This can also be written as:
