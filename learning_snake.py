@@ -41,7 +41,7 @@ class Snake:
         return False
     
     def reward_distance_to_fruit(self, state, new_state):
-        # return 0
+        return 0
         new_distance = abs(new_state.x - new_state.foodx) + abs(new_state.y - new_state.foody)
         old_distance = abs(state.x - state.foodx) + abs(state.y - state.foody)
         if new_distance - old_distance < 0:
@@ -61,9 +61,7 @@ class Snake:
         temp_y = state.y + move[1]
         new_state = State(temp_x, temp_y, state.length, state.foodx, state.foody, state.snake_list)
         reward = self.reward_distance_to_fruit(state, new_state)
-        if self.collide([temp_x,temp_y],state):
-            # new_state = State
-            return None, -100
+        
         if temp_x == state.foodx and temp_y == state.foody:
             reward = 10
             new_state.length += 1
@@ -74,7 +72,7 @@ class Snake:
                 new_state.foody = round(random.randrange(0, self.width-self.size) / self.size) * self.size
 
         if temp_x < 0 or temp_x > self.width-self.size or temp_y<0 or temp_y > self.height-self.size or [temp_x, temp_y] in new_state.snake_list[:-1]:
-            reward = -100
+            reward = -1000
 
 
 

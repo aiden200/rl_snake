@@ -84,9 +84,9 @@ class QLearningAlgorithm():
     # self.getQ() to compute the current estimate of the parameters.
     def incorporateFeedback(self, state: State, action: Any, reward: int, newState: State) -> None:
 
-        if newState == None:
-            # s is terminal
-            return
+        # if newState == None:
+        #     # s is terminal
+        #     return
 
         featureValues, debug_values = self.featureExtractor(state, action, self.height, self.width, self.size)
         max_action_value = float('-inf')
@@ -105,8 +105,9 @@ class QLearningAlgorithm():
 
 def featureExtractor(state: State, action, height, width, size):
     features = []
-    state_features = True
-    direction_and_danger = False
+    state_features = False
+    direction_and_danger = True
+    wall_tracker = True
     '''
     Some ideas
     if the snake is in the wall, put it at 0? Since it doesnt want to crash
@@ -234,7 +235,9 @@ def featureExtractor(state: State, action, height, width, size):
             bit = 0
         features.append(Feature(featureKey=('dangerRight', action), featureValue=bit))
         debug_bit.append(bit)
+    
 
+    # if wall_tracker:
 
 
 

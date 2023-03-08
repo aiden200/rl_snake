@@ -61,9 +61,8 @@ def simulate(display, height, width, debug_mode, numTrials=300, maxIterations=10
                             
 
             new_state, reward = snake.choices(state, action)
-            if new_state == None:
-                qlearn.incorporateFeedback(state, action, -10000, None)
-                # print("crashed")
+            if reward < -10:
+                qlearn.incorporateFeedback(state, action, reward, new_state)
                 break
             
             qlearn.incorporateFeedback(state, action, reward, new_state)
